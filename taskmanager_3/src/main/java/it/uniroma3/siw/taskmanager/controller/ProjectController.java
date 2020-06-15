@@ -122,6 +122,14 @@ public class ProjectController {
 			return "home";
 		}
 	}
+		@RequestMapping(value= {"/projects/shared/with/me"}, method = RequestMethod.GET)
+		public String sharedProjects(Model model) {
+			User loggedUser = sessionData.getLoggedUser();
+			List<Project> projectsList = projectService.retrieveProjectsShared(loggedUser);
+			model.addAttribute("loggedUser", loggedUser);
+			model.addAttribute("projectsList", projectsList);
+			return "mySharedProjects";
+		}
 	
 	
 	

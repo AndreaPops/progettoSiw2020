@@ -67,10 +67,16 @@ public class ProjectService {
 		return this.projectRepository.findByOwner(loggedUser);
 	}
 	
+	
+	
 	@Transactional
 	public void deleteProject(Long id) {
 		this.projectRepository.deleteById(id);
 	}
 	
+	@Transactional
+	public List<Project> retrieveProjectsShared(User user){
+	return this.projectRepository.findByMembers(user);
+	}
 	
 }

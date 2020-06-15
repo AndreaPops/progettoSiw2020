@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.uniroma3.siw.taskmanager.controller.session.SessionData;
+import it.uniroma3.siw.taskmanager.controller.validation.CredentialsValidator;
 import it.uniroma3.siw.taskmanager.controller.validation.UserValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.User;
@@ -32,6 +34,9 @@ public class UserController {
     @Autowired
     UserValidator userValidator;
 
+    @Autowired
+    CredentialsValidator credentialsValidator;
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -113,18 +118,22 @@ public class UserController {
     	return "updateprofile";
     }
     
-    @RequestMapping(value= {"/update/{credentialsId}"},method=RequestMethod.POST)
+  @RequestMapping(value= {"/update/{credentialsId}"},method=RequestMethod.POST)
     public String updateProfile(@PathVariable("credentialsId") Long id,Model model,
-    							@Valid @ModelAttribute("userForm") User newUser,
-    							@Valid @ModelAttribute("credentialsForm") Credentials newCredentials) {
-    	
+    							@Valid @ModelAttribute("userForm") User newUser, BindingResult userBindingResult,
+    							@Valid @ModelAttribute("credentialsForm") Credentials newCredentials, BindingResult credentialsBindingResult ) {
+    	this.userValidator.validate(newUser, userBindingResult);
+    	this.credentialsValidator.validate(newCredentials, credentialsBindingResult);
+    	if(!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
     	Credentials credentials=this.credentialsService.getCredentials(id);
-    	User user=credentials.getUser();
+    	User user=credentials.getUser();  
     	user.setFirstName(newUser.getFirstName());
     	user.setLastName(newUser.getLastName());
     	credentials.setUserName(newCredentials.getUserName());
     	credentials.setPassword(newCredentials.getPassword());
     	this.credentialsService.saveCredentials(credentials);
     	return "redirect:/users/me";
+    	}
+    	return "updateprofile";
     }
 }
