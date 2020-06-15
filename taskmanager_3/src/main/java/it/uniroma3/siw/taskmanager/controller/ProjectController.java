@@ -100,11 +100,10 @@ public class ProjectController {
 	
 	@RequestMapping(value= {"/projects/share/{idProject}"},method=RequestMethod.GET)
 	public String shareWith(@PathVariable("idProject") Long idProject,Model model) {
-		String userName= new String();
 		Project project =projectService.getProject(idProject);
 		model.addAttribute("project", project);
-		model.addAttribute("userName",userName);
-		return "shereWith";
+		model.addAttribute("userName",new String());
+		return "shareWith";
 	}
 	
 	
@@ -117,8 +116,7 @@ public class ProjectController {
 		}else {
 			User newUser=credentials.getUser();
 			projectService.shareProjectWithUser(projectShare, newUser);
-			newUser.addProject(newUser);
-			userService.saveUser(newUser);
+			this.userService.UserWithshareProject(projectShare, newUser);
 			User loggedUser= this.sessionData.getLoggedUser();
 			model.addAttribute("user", loggedUser);
 			return "home";

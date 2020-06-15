@@ -61,5 +61,11 @@ public class UserService {
 		List<User> result = this.userRepository.findByVisibleProjects(project);
 		return result;
 	}
+	
+	@Transactional
+	public User UserWithshareProject(Project project, User user) {
+		user.addVisibleProject(project);
+		return this.saveUser(user);
+	}
 
 }

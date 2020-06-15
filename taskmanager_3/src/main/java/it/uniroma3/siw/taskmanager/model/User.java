@@ -176,4 +176,11 @@ public class User {
                 ", lastUpdateTimestamp=" + lastUpdateTimestamp +
                 '}';
     }
+
+	public void addVisibleProject(Project project) {
+		this.visibleProjects.add(project);
+		
+	}
+
+	
 }
