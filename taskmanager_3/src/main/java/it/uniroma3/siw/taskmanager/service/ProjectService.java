@@ -1,6 +1,7 @@
 package it.uniroma3.siw.taskmanager.service;
 
 import it.uniroma3.siw.taskmanager.model.Project;
+import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 /**
  * The ProjectService handles logic for Projects.
@@ -71,6 +74,18 @@ public class ProjectService {
 	public void deleteProject(Long id) {
 		this.projectRepository.deleteById(id);
 	}
+	
+	@Transactional
+	public List<Project> retriveProjectsShared(User loggedUser){
+		return this.projectRepository.findByMembers(loggedUser);
+		
+	}
+
+	public void addTaskProject(Project project,Task task) {
+		project.getTasks().add(task);
+		this.projectRepository.save(project);
+	}
+
 	
 	
 }
