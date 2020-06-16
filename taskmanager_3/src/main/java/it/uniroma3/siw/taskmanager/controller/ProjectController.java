@@ -132,5 +132,6 @@ public class ProjectController {
 		model.addAttribute("projectsList", projectsList);
 		return "mySharedProjects";
 	}
+	
 
 }
