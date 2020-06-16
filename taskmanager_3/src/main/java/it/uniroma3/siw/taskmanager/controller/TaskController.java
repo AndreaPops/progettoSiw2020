@@ -53,7 +53,8 @@ public class TaskController {
 		this.taskValidator.validate(task, taskBindingResult);
 		if(!taskBindingResult.hasErrors()) {
 			Project project=this.projectService.getProject(idProject);
-			this.projectService.addTaskProject(project,task);
+			this.projectService.addTaskProject(project,this.taskService.saveTask(task));
+			model.addAttribute("task",task);
 			return "task";
 		}
 		return "redirect:/task/add/{idProject}";
