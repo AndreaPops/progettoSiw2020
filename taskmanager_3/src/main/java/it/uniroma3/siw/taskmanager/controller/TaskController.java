@@ -59,4 +59,20 @@ public class TaskController {
 		}
 		return "redirect:/task/add/{idProject}";
 	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/deleteTask/{taskId}"}, method = RequestMethod.POST)
+	public String deleteTask(Model model, @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
+	 User loggedUser = sessionData.getLoggedUser();
+	 Project project = projectService.getProject(projectId);
+	 User owner = project.getOwner();
+	 if (loggedUser.equals(owner)) {
+	  project.removeTaskWithId(taskId);
+	  projectService.saveProject(project);
+	  taskService.deleteTask(this.taskService.getTask(taskId));
+	  return "redirect:/projects/{projectId}"; 
+	 }
+	 else
+	  return "redirect:/projects/{projectId}";
+	}
+
 }
