@@ -92,7 +92,7 @@ public class ProjectController {
 		return "addProject";
 	}
 
-	@RequestMapping(value= {"/delete/{id}"},method=RequestMethod.GET)
+	@RequestMapping(value= {"/delete/{id}"},method=RequestMethod.POST)
 	public String deleteProject(@PathVariable("id")Long id,Model model) {
 		this.projectService.deleteProject(id);
 		return "redirect:/projects/";
@@ -132,6 +132,5 @@ public class ProjectController {
 		model.addAttribute("projectsList", projectsList);
 		return "mySharedProjects";
 	}
-	
 
 }

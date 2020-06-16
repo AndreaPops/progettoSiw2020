@@ -19,11 +19,17 @@
 		<tbody>
 		<tr th:each ="project : ${projectsList}">
 			<td><a th:href="'/projects/' + ${project.id}" th:text="${project.name}"></a></td>
-			<td th:text="${project.description}">...</td>   
-			<td><a th:href="'/delete/' + ${project.id}">Delete</a></td>
+			<td th:text="${project.description}">...</td>
+			<td>
+	 	       <form method="POST" th:action="'/delete/' + ${project.id}">
+	 	       <button type="submit" name="submit" value="value">Delete project</button>
+	 	       </form>			
+	 	    </td>
 			</tr>
 			</tbody>
 		</table>	
 </div>
 </body>
 </html>
+
+
