@@ -1,6 +1,7 @@
 package it.uniroma3.siw.taskmanager.service;
 
 import it.uniroma3.siw.taskmanager.model.Project;
+import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.repository.ProjectRepository;
@@ -84,5 +85,11 @@ public class ProjectService {
 	public void addTaskProject(Project project,Task task) {
 		project.getTasks().add(task);
 		this.projectRepository.save(project);
+	}
+
+	public void addTagProject(Project project,  Tag tag) {
+		project.addTag(tag);
+		this.projectRepository.save(project);
+		
 	}
 }	

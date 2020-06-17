@@ -2,6 +2,7 @@ package it.uniroma3.siw.taskmanager.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -53,6 +54,8 @@ public class Task {
     @ManyToOne
     private User userTask;
     
+    @ManyToMany()
+    private List<Tag> listaTag;
     public Task() {}
 
     public Task(String name,
@@ -156,4 +159,13 @@ public class Task {
 	public void setUserTask(User userTask) {
 		this.userTask = userTask;
 	}
+
+	public List<Tag> getListaTag() {
+		return listaTag;
+	}
+
+	public void setListaTag(List<Tag> listaTag) {
+		this.listaTag = listaTag;
+	}
+	
 }

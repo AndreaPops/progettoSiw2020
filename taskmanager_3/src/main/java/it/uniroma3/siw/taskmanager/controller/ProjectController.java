@@ -17,6 +17,7 @@ import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.ProjectValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.Project;
+import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.service.CredentialsService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
@@ -157,5 +158,6 @@ public class ProjectController {
 			return "updateProject";
 		}
 	}
+	
 
 }
