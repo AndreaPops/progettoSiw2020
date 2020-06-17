@@ -132,6 +132,29 @@ public class ProjectController {
 		model.addAttribute("projectsList", projectsList);
 		return "mySharedProjects";
 	}
-	
+
+	@RequestMapping(value= {"/updateProject/{idProject}"}, method=RequestMethod.GET)
+	public String updateProject(@PathVariable("idProject") Long idProject, Model model) {
+		Project project=projectService.getProject(idProject);
+		model.addAttribute("projectForm", project);
+		return "updateProject";
+	}
+
+	@RequestMapping(value= {"/updateProject/{idProject}"}, method=RequestMethod.POST)
+	public String updateProject(@PathVariable("idProject") Long idProject, Model model,
+			@Valid @ModelAttribute("projectForm") Project newProject,
+			BindingResult projectBindingResult) {
+		
+		this.projectValidator.validate(newProject, projectBindingResult);
+		if(!projectBindingResult.hasErrors()) {
+			Project project=projectService.getProject(idProject);
+        project.setName(newProject.getName());
+        project.setDescription(newProject.getDescription());
+        this.projectService.saveProject(project);
+        return "redirect:/projects";
+		}
+		else
+			return "updateProject";
+	}
 
 }

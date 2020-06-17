@@ -19,19 +19,20 @@
 	</div>
 	<h3>Tasks</h3>
 
-	<a th:href="@{'/task/add/' + ${project.id}}">Add Task</a>
+
 	<ul>
 		<li th:each="task : ${project.tasks}">
-			<form method="POST"
-				th:action="@{'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}}">
-				<div th:text="${task.name}"></div>
+				<div th:text="${task.name}"></div> 
 				<div th:text="${task.description}" style="color: pink"></div>
+				<a th:href="'/updateTask/' + ${task.id}">Update</a>
+				<form method="POST"
+				th:action="@{'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}}">
 				<button type="submit" name="submit" value="value">delete
 					Task</button>
 			</form>
 		</li>
 	</ul>
-
+	<a th:href="@{'/task/add/' + ${project.id}}">Add Task</a>
 	<a th:href="'/projects' + '/share/' + ${project.id}">Share with</a>
 </body>
 </html>

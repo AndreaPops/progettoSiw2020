@@ -74,5 +74,31 @@ public class TaskController {
 	 else
 	  return "redirect:/projects/{projectId}";
 	}
-
+	
+	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.GET)
+	public String updateTask(@PathVariable("taskId") Long taskid,Model model) {
+	Task taskForm=	this.taskService.getTask(taskid);
+		model.addAttribute("taskForm", taskForm);
+		return "updateTask";
+	}
+	
+	
+	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.POST)
+	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
+			@Valid @ModelAttribute("taskForm") Task newTask, 
+			BindingResult taskBindingResult, @PathVariable("projectId") Long idProject) {	
+		this.taskValidator.validate(newTask, taskBindingResult);
+		if(!taskBindingResult.hasErrors()){
+	Task task=this.taskService.getTask(taskId);
+	task.setName(newTask.getName());
+	task.setDescription(newTask.getDescription());
+	this.taskService.saveTask(task);
+	model.addAttribute("task", task);
+	return "task";		
+	}
+	else
+		return "updateTask/{taskId}";
+	}
+	
+	
 }

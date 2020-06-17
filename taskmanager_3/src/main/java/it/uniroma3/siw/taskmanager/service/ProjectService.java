@@ -85,7 +85,9 @@ public class ProjectService {
 		project.getTasks().add(task);
 		this.projectRepository.save(project);
 	}
+	
+	}
 
 	
 	
-}
+
