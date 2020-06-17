@@ -10,5 +10,9 @@
 <h1>TASK</h1>
     <h2 th:text="${task.name}"></h2>
     <h3 th:text="${task.description}" style="color: green"></h3>
+    <div th:if="${task.userTask!=null}">
+    <h4>Shared with</h4>
+    <h5 th:text="${task.userTask.firstName} + ' ' + ${task.userTask.lastName}"></h5>
+    </div>
 </body>
 </html>

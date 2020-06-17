@@ -10,7 +10,7 @@
 	<h1 th:text="${project.name}"></h1>
 	<h4 th:text="${project.description}" style="color: green"></h4>
 	<div th:if="${members.size()>0}">
-		<h3>Shared With:</h3>
+		<h3>Shared Project With:</h3>
 		<ul>
 			<li th:each="member : ${members}">
 				<div th:text="${member.firstName} + ' ' + ${member.lastName}"></div>
@@ -22,17 +22,25 @@
 
 	<ul>
 		<li th:each="task : ${project.tasks}">
-				<div th:text="${task.name}"></div> 
+
+				<div th:text="${task.name}"></div>
 				<div th:text="${task.description}" style="color: pink"></div>
 				<a th:href="'/updateTask/' + ${task.id}">Update</a>
 				<form method="POST"
 				th:action="@{'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}}">
 				<button type="submit" name="submit" value="value">delete
 					Task</button>
+
 			</form>
+			<a th:href="@{'/projects/task/' + ${task.id} + '/' + ${project.id}}">Share task with</a>
 		</li>
 	</ul>
 	<a th:href="@{'/task/add/' + ${project.id}}">Add Task</a>
-	<a th:href="'/projects' + '/share/' + ${project.id}">Share with</a>
+
+	<a th:href="'/projects' + '/share/' + ${project.id}">Share Project with</a>
+
+
+
+
 </body>
 </html>

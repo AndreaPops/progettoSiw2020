@@ -6,9 +6,9 @@
 <title>TaskManager</title>
 </head>
 <body>
-	<h1>Share a Project</h1>
-	<form
-		th:action="@{'/projects' + '/share/' + ${project.id}}"
+	<h1>Share a Task</h1>
+	<form   
+		th:action="@{'/task/' + ${task.id} + '/' + ${project.id}}"
 		method="POST">
 		
 		<table>
@@ -17,7 +17,7 @@
 				<td><input id=userNameInput type="text" placeholder="USERNAME" th:name="userName" required /></td>
 				</tr>
 		</table>
-		<button type="submit">Share Project</button>
+		<button type="submit" name="submit" value="value">Share Task</button>
 	</form>
 </body>
 </html>

@@ -54,11 +54,11 @@ public class ProjectController {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(project == null)
-			return "redirect:/projects";	
+			return "redirect:/projects";
 
 		List<User> members = userService.getMembers(project);
 		if(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))
-			return "redirect:/projects";	
+			return "redirect:/projects";
 
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("project", project);
@@ -92,7 +92,7 @@ public class ProjectController {
 		return "addProject";
 	}
 
-	@RequestMapping(value= {"/delete/{id}"},method=RequestMethod.GET)
+	@RequestMapping(value= {"/delete/{id}"},method=RequestMethod.POST)
 	public String deleteProject(@PathVariable("id")Long id,Model model) {
 		this.projectService.deleteProject(id);
 		return "redirect:/projects/";
@@ -144,7 +144,7 @@ public class ProjectController {
 	public String updateProject(@PathVariable("idProject") Long idProject, Model model,
 			@Valid @ModelAttribute("projectForm") Project newProject,
 			BindingResult projectBindingResult) {
-		
+
 		this.projectValidator.validate(newProject, projectBindingResult);
 		if(!projectBindingResult.hasErrors()) {
 			Project project=projectService.getProject(idProject);
