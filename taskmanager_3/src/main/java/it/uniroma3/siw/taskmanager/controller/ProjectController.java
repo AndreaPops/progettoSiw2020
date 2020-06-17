@@ -144,17 +144,20 @@ public class ProjectController {
 	public String updateProject(@PathVariable("idProject") Long idProject, Model model,
 			@Valid @ModelAttribute("projectForm") Project newProject,
 			BindingResult projectBindingResult) {
-
+		Project project=projectService.getProject(idProject);
 		this.projectValidator.validate(newProject, projectBindingResult);
 		if(!projectBindingResult.hasErrors()) {
-			Project project=projectService.getProject(idProject);
-        project.setName(newProject.getName());
-        project.setDescription(newProject.getDescription());
-        this.projectService.saveProject(project);
-        return "redirect:/projects";
+
+			project.setName(newProject.getName());
+			project.setDescription(newProject.getDescription());
+			this.projectService.saveProject(project);
+			return "redirect:/projects";
 		}
-		else
+		else {
+
+			model.addAttribute("projectForm", project);
 			return "updateProject";
+		}
 	}
 
 }
