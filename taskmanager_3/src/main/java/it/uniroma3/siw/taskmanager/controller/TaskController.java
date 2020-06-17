@@ -63,7 +63,7 @@ public class TaskController {
 		}
 		return "redirect:/task/add/{idProject}";
 	}
-	
+
 	@RequestMapping(value= {"/task/{idTask}"},method=RequestMethod.GET)
 	public String task(@PathVariable("idTask") Long idTask,Model model) {
 		Task task=this.taskService.getTask(idTask);
@@ -80,11 +80,38 @@ public class TaskController {
 			project.removeTaskWithId(taskId);
 			projectService.saveProject(project);
 			taskService.deleteTask(this.taskService.getTask(taskId));
-			return "redirect:/projects/{projectId}"; 
+			return "redirect:/projects/{projectId}";
 		}
 		else
 			return "redirect:/projects/{projectId}";
 	}
+	
+	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.GET)
+	public String updateTask(@PathVariable("taskId") Long taskId,Model model) {
+	Task taskForm=	this.taskService.getTask(taskId);
+		model.addAttribute("taskForm", taskForm);
+		return "updateTask";
+	}
+
+
+	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.POST)
+	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
+			@Valid @ModelAttribute("taskForm") Task newTask,
+			BindingResult taskBindingResult, @PathVariable("projectId") Long idProject) {
+		this.taskValidator.validate(newTask, taskBindingResult);
+		if(!taskBindingResult.hasErrors()){
+	Task task=this.taskService.getTask(taskId);
+	task.setName(newTask.getName());
+	task.setDescription(newTask.getDescription());
+	this.taskService.saveTask(task);
+	model.addAttribute("task", task);
+	return "task";
+	}
+	else
+		return "updateTask/{taskId}";
+	}
+
+
 
 	@RequestMapping(value= {"/projects/task/{idTask}/{idProject}"},method=RequestMethod.GET)
 	public String shareTask(@PathVariable("idTask") Long idTask,@PathVariable("idProject") Long idProject,Model model) {
@@ -113,9 +140,7 @@ public class TaskController {
 			return "task";
 		}
 	}
-	
-	
+
+
 
 }
-
-

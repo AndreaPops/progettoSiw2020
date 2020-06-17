@@ -69,21 +69,20 @@ public class ProjectService {
 	public List<Project> retrieveProjectsOwnedBy(User loggedUser) {
 		return this.projectRepository.findByOwner(loggedUser);
 	}
-	
+
 	@Transactional
 	public void deleteProject(Long id) {
 		this.projectRepository.deleteById(id);
 	}
-	
+
 	@Transactional
 	public List<Project> retriveProjectsShared(User loggedUser){
 		return this.projectRepository.findByMembers(loggedUser);
-		
+
 	}
 	@Transactional
 	public void addTaskProject(Project project,Task task) {
 		project.getTasks().add(task);
 		this.projectRepository.save(project);
 	}
-	
-}
+}	
