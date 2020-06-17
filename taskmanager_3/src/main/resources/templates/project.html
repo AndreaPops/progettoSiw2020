@@ -22,8 +22,7 @@
 
 	<ul>
 		<li th:each="task : ${project.tasks}">
-
-				<div th:text="${task.name}"></div>
+				<a th:href="'/task/' + ${task.id}" th:text="${task.name}"></a>
 				<div th:text="${task.description}" style="color: pink"></div>
 				<a th:href="'/updateTask/' + ${task.id}">Update</a>
 				<form method="POST"

@@ -61,6 +61,7 @@ public class TaskController {
 			model.addAttribute("task",task);
 			return "task";
 		}
+		model.addAttribute("task", task);
 		return "redirect:/task/add/{idProject}";
 	}
 
@@ -97,11 +98,10 @@ public class TaskController {
 	@RequestMapping(value= {"/updateTask/task/{taskId}"}, method= RequestMethod.POST)
 	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
 			@Valid @ModelAttribute("task") Task newTask,
-			BindingResult taskBindingResult, @PathVariable("projectId") Long idProject) {
+			BindingResult taskBindingResult) {
 		Task task=this.taskService.getTask(taskId);
 		this.taskValidator.validate(newTask, taskBindingResult);
 		if(!taskBindingResult.hasErrors()){
-			
 			task.setName(newTask.getName());
 			task.setDescription(newTask.getDescription());
 			this.taskService.saveTask(task);
@@ -110,7 +110,8 @@ public class TaskController {
 		}
 		else
 		{
-			model.addAttribute("task", task);
+			newTask.setId(task.getId());
+			model.addAttribute("task", newTask);
 			return "updateTask";
 		}
 	}
@@ -119,7 +120,6 @@ public class TaskController {
 
 	@RequestMapping(value= {"/projects/task/{idTask}/{idProject}"},method=RequestMethod.GET)
 	public String shareTask(@PathVariable("idTask") Long idTask,@PathVariable("idProject") Long idProject,Model model) {
-		User loggedUser = sessionData.getLoggedUser();
 		Project project=this.projectService.getProject(idProject);
 		Task task= this.taskService.getTask(idTask);
 		String userName= new String();
@@ -130,6 +130,7 @@ public class TaskController {
 
 	}
 
+	
 	@RequestMapping(value={"/task/{idTask}/{idProject}"},method=RequestMethod.POST)
 	public String shareTask(@PathVariable("idProject") Long idProject,@PathVariable("idTask") Long idTask,
 			Model model,@ModelAttribute("userName") String userName) {
