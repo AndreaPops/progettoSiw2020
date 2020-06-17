@@ -79,7 +79,6 @@ public class ProjectController {
 	@RequestMapping(value= { "/projects/add" }, method = RequestMethod.POST)
 	public String createProject(@Valid @ModelAttribute("projectForm") Project project,
 			BindingResult projectBindingResult, Model model) {
-
 		User loggedUser = sessionData.getLoggedUser();
 		projectValidator.validate(project, projectBindingResult);
 		if(!projectBindingResult.hasErrors()) {
@@ -87,7 +86,6 @@ public class ProjectController {
 			this.projectService.saveProject(project);
 			return "redirect:/projects/" + project.getId();
 		}
-
 		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";
 	}
@@ -147,7 +145,6 @@ public class ProjectController {
 		Project project=projectService.getProject(idProject);
 		this.projectValidator.validate(newProject, projectBindingResult);
 		if(!projectBindingResult.hasErrors()) {
-
 			project.setName(newProject.getName());
 			project.setDescription(newProject.getDescription());
 			this.projectService.saveProject(project);
@@ -155,8 +152,8 @@ public class ProjectController {
 			return "redirect:/projects";
 		}
 		else {
-
-			model.addAttribute("projectForm", project);
+			newProject.setId(project.getId());
+			model.addAttribute("projectForm", newProject);
 			return "updateProject";
 		}
 	}
