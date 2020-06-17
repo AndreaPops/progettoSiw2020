@@ -67,5 +67,6 @@ public class UserService {
 		user.addVisibleProject(project);
 		return this.saveUser(user);
 	}
+	
 
 }

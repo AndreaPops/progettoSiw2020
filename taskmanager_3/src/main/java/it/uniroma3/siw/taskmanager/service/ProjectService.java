@@ -80,12 +80,10 @@ public class ProjectService {
 		return this.projectRepository.findByMembers(loggedUser);
 		
 	}
-
+	@Transactional
 	public void addTaskProject(Project project,Task task) {
 		project.getTasks().add(task);
 		this.projectRepository.save(project);
 	}
-
-	
 	
 }

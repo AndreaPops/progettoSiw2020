@@ -50,6 +50,9 @@ public class Task {
     @Column(nullable = false)
     private LocalDateTime lastUpdateTimestamp;
 
+    @ManyToOne
+    private User userTask;
+    
     public Task() {}
 
     public Task(String name,
@@ -145,4 +148,12 @@ public class Task {
     public int hashCode() {
         return Objects.hash(name, completed, creationTimestamp, lastUpdateTimestamp);
     }
+
+	public User getUserTask() {
+		return userTask;
+	}
+
+	public void setUserTask(User userTask) {
+		this.userTask = userTask;
+	}
 }
