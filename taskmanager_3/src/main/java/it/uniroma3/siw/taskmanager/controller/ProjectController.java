@@ -151,6 +151,7 @@ public class ProjectController {
 			project.setName(newProject.getName());
 			project.setDescription(newProject.getDescription());
 			this.projectService.saveProject(project);
+			model.addAttribute("projectForm", project);
 			return "redirect:/projects";
 		}
 		else {

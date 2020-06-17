@@ -88,15 +88,15 @@ public class TaskController {
 
 	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.GET)
 	public String updateTask(@PathVariable("taskId") Long taskId,Model model) {
-		Task taskForm=	this.taskService.getTask(taskId);
-		model.addAttribute("taskForm", taskForm);
+		Task task=	this.taskService.getTask(taskId);
+		model.addAttribute("task", task);
 		return "updateTask";
 	}
 
 
-	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.POST)
+	@RequestMapping(value= {"/updateTask/task/{taskId}"}, method= RequestMethod.POST)
 	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
-			@Valid @ModelAttribute("taskForm") Task newTask,
+			@Valid @ModelAttribute("task") Task newTask,
 			BindingResult taskBindingResult, @PathVariable("projectId") Long idProject) {
 		Task task=this.taskService.getTask(taskId);
 		this.taskValidator.validate(newTask, taskBindingResult);
@@ -111,7 +111,7 @@ public class TaskController {
 		else
 		{
 			model.addAttribute("task", task);
-			return "updateTask/{taskId}";
+			return "updateTask";
 		}
 	}
 
