@@ -76,8 +76,8 @@ public class TaskController {
 	}
 	
 	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.GET)
-	public String updateTask(@PathVariable("taskId") Long taskid,Model model) {
-	Task taskForm=	this.taskService.getTask(taskid);
+	public String updateTask(@PathVariable("taskId") Long taskId,Model model) {
+	Task taskForm=	this.taskService.getTask(taskId);
 		model.addAttribute("taskForm", taskForm);
 		return "updateTask";
 	}
