@@ -52,6 +52,10 @@ public class Project {
     @JoinColumn(name="project_id")
     private List<Task> tasks;
 
+    @OneToMany
+    @JoinColumn(name="projects_id")
+    private List<Tag> tags;
+    
     public Project() {
         this.members = new ArrayList<>();
         this.tasks = new ArrayList<>();
@@ -144,4 +148,17 @@ public class Project {
     public void removeTaskWithId(Long taskId) {
     	tasks.removeIf(task-> task.getId().equals(taskId));
     }
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
+	}
+    
 }

@@ -1,10 +1,13 @@
 package it.uniroma3.siw.taskmanager.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Tag {
@@ -14,32 +17,19 @@ public class Tag {
 	private Long id;
 
 	@Column
-	private String nome;
-	private String colore;
-	private String descrizione;
-	
-	
-	
-	
-	
-	
-	
-// manca i collegamenti con le altre esnitta
-	
-	
-	
-	
-	
-	
-	
+	private String name;
+	private String color;
+	private String description;
+	@ManyToMany(mappedBy="listaTag")
+	private List<Task> listaTask;	
 	public Tag() {
 
 	}
 
 	public Tag(String nome,String colore,String descrizione) {
-		this.nome=nome;
-		this.colore=colore;
-		this.descrizione=descrizione;
+		this.name=nome;
+		this.color=colore;
+		this.description=descrizione;
 	}
 
 	public Long getId() {
@@ -48,23 +38,30 @@ public class Tag {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	
+
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getColore() {
-		return colore;
+
+	public String getColor() {
+		return color;
 	}
-	public void setColore(String colore) {
-		this.colore = colore;
+
+	public void setColor(String color) {
+		this.color = color;
 	}
-	public String getDescrizione() {
-		return descrizione;
+
+	public String getDescription() {
+		return description;
 	}
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -98,14 +95,23 @@ public class Tag {
 		builder.append("Tag [id=");
 		builder.append(id);
 		builder.append(", nome=");
-		builder.append(nome);
+		builder.append(name);
 		builder.append(", colore=");
-		builder.append(colore);
+		builder.append(color);
 		builder.append(", descrizione=");
-		builder.append(descrizione);
+		builder.append(description);
 		builder.append("]");
 		return builder.toString();
 	}
+
+	public List<Task> getListaTask() {
+		return listaTask;
+	}
+
+	public void setListaTask(List<Task> listaTask) {
+		this.listaTask = listaTask;
+	}
+
 
 
 }
