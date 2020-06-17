@@ -132,7 +132,7 @@ public class UserController {
     	credentials.setUserName(newCredentials.getUserName());
     	credentials.setPassword(newCredentials.getPassword());
     	this.credentialsService.saveCredentials(credentials);
-    	return "redirect:/users/me";
+    	return "redirect:/user/me";
     	}
     	return "updateprofile";
     }
