@@ -30,7 +30,7 @@ public class UserController {
 
 	@Autowired
     CredentialsValidator credentialsValidator;
-	
+
     @Autowired
     UserRepository userRepository;
 
@@ -42,7 +42,7 @@ public class UserController {
 
     @Autowired
     SessionData sessionData;
-    
+
     @Autowired
     CredentialsService credentialsService;
 
@@ -91,18 +91,18 @@ public class UserController {
         model.addAttribute("user", loggedUser);
         return "admin";
     }
-    
+
     @RequestMapping(value = { "/admin/users" }, method = RequestMethod.GET)
     public String usersList(Model model) {
         User loggedUser = sessionData.getLoggedUser();
         List<Credentials> allCredentials = this.credentialsService.getAllCredentials();
-        
+
         model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("allCredentials", allCredentials);
-        
+
         return "allUsers";
     }
-    
+
     @RequestMapping(value = { "/admin/users/{username}/delete" }, method = RequestMethod.POST)
     public String removeUser(Model model, @PathVariable String username) {
         this.credentialsService.deleteCredentials(username);
@@ -117,7 +117,7 @@ public class UserController {
     	model.addAttribute("credentialsForm",credentials);
     	return "updateprofile";
     }
-    
+
     @RequestMapping(value= {"/update/{credentialsId}"},method=RequestMethod.POST)
     public String updateProfile(@PathVariable("credentialsId") Long id,Model model,
     							@Valid @ModelAttribute("userForm") User newUser,BindingResult userBindingResult,
@@ -132,7 +132,7 @@ public class UserController {
     	credentials.setUserName(newCredentials.getUserName());
     	credentials.setPassword(newCredentials.getPassword());
     	this.credentialsService.saveCredentials(credentials);
-    	return "redirect:/user/me";
+    	return "redirect:/logout";
     	}
     	return "updateprofile";
     }
