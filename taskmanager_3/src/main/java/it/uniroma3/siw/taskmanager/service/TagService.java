@@ -1,4 +1,6 @@
 package it.uniroma3.siw.taskmanager.service;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,5 +23,11 @@ public class TagService {
 	public void addTaskToTag(Tag tag,Task task) {
 		tag.getListaTask().add(task);
 		this.tagRepository.save(tag);
+	}
+	
+	@Transactional
+	public Tag getTag(Long id) {
+		Optional<Tag> result = this.tagRepository.findById(id);
+		return result.orElse(null);
 	}
 }

@@ -1,39 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org">
- <head>
-    <meta charset="UTF-8">
-    <title>TaskManager</title>
- </head>
-   <body>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TaskManager</title>
+</head>
+<body>
+	 <h1>Share Tag</h1>
+		<ul>  <li th:each= "tag : ${project.tags}">
+			<a th:href="'/task/' + ${task.id} + '/' + ${project.id} + '/' + ${tag.id}"th:text="${tag.name} + ' ' + ${tag.description} + ' ' + ${tag.color}">
+			</a>
+			</li>
+		</ul>
+</body>
+</html>
    
-	 <h1>Create new Tag</h1>
-		<form
-		th:action="@{'/task/addTag/' + ${task.id} + '/' + ${project.id}}"
-		method = "POST"
-		th:object="${tag}">
-		
-    <table>
-     <tr> 
-      <td><label for="tagNameInput">Tag Name</label>
-      <td><input id=tagNameInput type="text" placeholder="NAME" required th:field="*{Name}"/></td>
-       <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:style="'color:red'"></td>
-       </tr>
-       <tr>
-         <td><label for="descriptionInput">Description</label>
-          <td><input id="descriptionInput" placeholder="DESCRIPTION" th:field="*{description}"/></td>
-          <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:style="'color:red'"></td>
-          </tr>
-          <tr>
-         <td><label for="colorInput">Color</label>
-          <td><input id="colorInput" placeholder="COLOR" th:field="*{color}"/></td>
-          <td th:if="${#fields.hasErrors('color')}" th:errors="*{color}" th:style="'color:red'"></td>
-          </tr>
-          <tr>
-           <td> <button type="submit">Add</button></td>
-           </tr>
-    </table>
-    </form>
-   </body>
-   </html>
+   
