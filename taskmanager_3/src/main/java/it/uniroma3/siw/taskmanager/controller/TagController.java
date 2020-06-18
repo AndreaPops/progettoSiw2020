@@ -74,22 +74,16 @@ public class TagController {
 			@Valid@ModelAttribute("tag") Tag tag,BindingResult tagBindingResult) {
 		Task task=this.taskService.getTask(idTask);
 		this.tagValidator.validate(tag, tagBindingResult);
-		System.out.println("1111111111111111111111"+tag.toString());
 		model.addAttribute("project", this.projectService.getProject(idProject));
 		if(!tagBindingResult.hasErrors()) {
-			System.out.println("2222222222222222222222222"+tag.toString());
 			this.tagService.saveTag(tag);
-			System.out.println("ciaoooooooooooooooooooooooooooooo"+tag.toString());
 			this.tagService.addTaskToTag(tag, task);
-			System.out.println("33333333333333333333333333333"+tag.toString());
 			this.taskService.addTagtoTask(task, tag);
 			model.addAttribute("task", task);
-			System.out.println("4444444444444444444444"+tag.toString());
 			return"task";
 		}else {
 			model.addAttribute("task",task);
 			model.addAttribute("tag", tag);
-			System.out.println("555555555555555555555555555"+tag.toString());
 			return"addTagTask";
 		}
 	}

@@ -56,15 +56,16 @@ public class TaskController {
 		this.taskValidator.validate(task, taskBindingResult);
 		User loggedUser=sessionData.getLoggedUser();
 		model.addAttribute("user", loggedUser);
+		Project project=this.projectService.getProject(idProject);
 		if(!taskBindingResult.hasErrors()) {
-			Project project=this.projectService.getProject(idProject);
 			this.projectService.addTaskProject(project,this.taskService.saveTask(task));
 			model.addAttribute("project", project);
 			model.addAttribute("task",task);
 			return "task";
 		}
 		model.addAttribute("task", task);
-		return "redirect:/task/add/{idProject}";
+		model.addAttribute("project",project);
+		return "addTask";
 	}
 
 	@RequestMapping(value= {"/task/{idTask}/project/{projectId}"},method=RequestMethod.GET)

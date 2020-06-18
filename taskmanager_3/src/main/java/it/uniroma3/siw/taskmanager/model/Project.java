@@ -52,7 +52,7 @@ public class Project {
     @JoinColumn(name="project_id")
     private List<Task> tasks;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.REMOVE)
     @JoinColumn(name="projects_id")
     private List<Tag> tags;
     

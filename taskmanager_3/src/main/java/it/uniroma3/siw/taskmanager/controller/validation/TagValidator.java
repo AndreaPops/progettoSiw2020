@@ -23,7 +23,7 @@ public class TagValidator implements Validator{
 		if (name.isBlank())
 			errors.rejectValue("name", "required");
 		else if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH)
-			errors.rejectValue("nome", "size");
+			errors.rejectValue("name", "size");
 		if (description.length() > MAX_DESCRIPTION_LENGTH)
 			errors.rejectValue("description", "size");
 		if(color.length()<MIN_NAME_LENGTH )
