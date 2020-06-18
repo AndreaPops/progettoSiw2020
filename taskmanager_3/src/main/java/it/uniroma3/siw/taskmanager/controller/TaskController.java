@@ -67,9 +67,11 @@ public class TaskController {
 		return "redirect:/task/add/{idProject}";
 	}
 
-	@RequestMapping(value= {"/task/{idTask}"},method=RequestMethod.GET)
-	public String task(@PathVariable("idTask") Long idTask,Model model) {
+	@RequestMapping(value= {"/task/{idTask}/project/{projectId}"},method=RequestMethod.GET)
+	public String task(@PathVariable("idTask") Long idTask,Model model, @PathVariable("projectId") Long projectId) {
 		Task task=this.taskService.getTask(idTask);
+		Project project= this.projectService.getProject(projectId);
+		model.addAttribute("project", project);
 		model.addAttribute("task", task);
 		return "task";
 	}
@@ -148,6 +150,7 @@ public class TaskController {
 		Credentials credentials=this.credentialsService.getCredentialsVisibleOfProject(userName, project);
 		User loggedUser=sessionData.getLoggedUser();
 		model.addAttribute("user", loggedUser);
+		model.addAttribute("project", project);
 		if(credentials==null) {
 			return "redirect:/projects/task/{idTask}/{idProject}";
 		}else {
