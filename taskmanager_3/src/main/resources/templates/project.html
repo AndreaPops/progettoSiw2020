@@ -22,7 +22,7 @@
 		<li th:each="task : ${project.tasks}"><a
 			th:href="'/task/' + ${task.id}" th:text="${task.name}"></a>
 			<div th:text="${task.description}" style="color: pink"></div> <a
-			th:href="'/updateTask/' + ${task.id}">Update</a>
+			th:href="'/updateTask/' + ${task.id} + '/project/' + ${project.id}">Update</a>
 			<form method="POST"
 				th:action="@{'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}}">
 				<button type="submit" name="submit" value="value">delete
@@ -41,5 +41,6 @@
 	</li>
 	</ul>
 	<a th:href="'/project/addTag/' + ${project.id}">Add Tag</a>
+	<h5><a th:href="@{/home}">Home</a></h5>
 </body>
 </html>

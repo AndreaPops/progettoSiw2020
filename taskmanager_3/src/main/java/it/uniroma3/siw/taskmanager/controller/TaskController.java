@@ -20,7 +20,6 @@ import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.service.CredentialsService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
 import it.uniroma3.siw.taskmanager.service.TaskService;
-import it.uniroma3.siw.taskmanager.service.UserService;
 
 @Controller
 public class TaskController {
@@ -55,9 +54,12 @@ public class TaskController {
 	@RequestMapping(value= {"/task/add/{idProject}"},method=RequestMethod.POST)
 	public String addTask(@PathVariable("idProject") Long idProject,Model model,@Valid@ModelAttribute("task") Task task,BindingResult taskBindingResult) {
 		this.taskValidator.validate(task, taskBindingResult);
+		User loggedUser=sessionData.getLoggedUser();
+		model.addAttribute("user", loggedUser);
 		if(!taskBindingResult.hasErrors()) {
 			Project project=this.projectService.getProject(idProject);
 			this.projectService.addTaskProject(project,this.taskService.saveTask(task));
+			model.addAttribute("project", project);
 			model.addAttribute("task",task);
 			return "task";
 		}
@@ -87,18 +89,25 @@ public class TaskController {
 			return "redirect:/projects/{projectId}";
 	}
 
-	@RequestMapping(value= {"/updateTask/{taskId}"}, method= RequestMethod.GET)
-	public String updateTask(@PathVariable("taskId") Long taskId,Model model) {
+	@RequestMapping(value= {"/updateTask/{taskId}/project/{projectId}"}, method= RequestMethod.GET)
+	public String updateTask(@PathVariable("taskId") Long taskId,Model model, @PathVariable("projectId") Long projectId) {
 		Task task=	this.taskService.getTask(taskId);
+		Project project=this.projectService.getProject(projectId);
+		model.addAttribute("project", project);
 		model.addAttribute("task", task);
 		return "updateTask";
 	}
 
 
-	@RequestMapping(value= {"/updateTask/task/{taskId}"}, method= RequestMethod.POST)
+	@RequestMapping(value= {"/updateTask/task/{taskId}/project/{projectId}"}, method= RequestMethod.POST)
 	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
+			@PathVariable("projectId") Long projectId,
 			@Valid @ModelAttribute("task") Task newTask,
 			BindingResult taskBindingResult) {
+		User loggedUser=sessionData.getLoggedUser();
+		Project project=this.projectService.getProject(projectId);
+		model.addAttribute("user", loggedUser);
+		model.addAttribute("project", project);
 		Task task=this.taskService.getTask(taskId);
 		this.taskValidator.validate(newTask, taskBindingResult);
 		if(!taskBindingResult.hasErrors()){
@@ -137,6 +146,8 @@ public class TaskController {
 		Task task=this.taskService.getTask(idTask);
 		Project project=this.projectService.getProject(idProject);
 		Credentials credentials=this.credentialsService.getCredentialsVisibleOfProject(userName, project);
+		User loggedUser=sessionData.getLoggedUser();
+		model.addAttribute("user", loggedUser);
 		if(credentials==null) {
 			return "redirect:/projects/task/{idTask}/{idProject}";
 		}else {
