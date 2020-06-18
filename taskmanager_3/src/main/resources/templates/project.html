@@ -20,7 +20,8 @@
 	<h3>Tasks</h3>
 	<ul>
 		<li th:each="task : ${project.tasks}"><a
-			th:href="'/task/' + ${task.id} +'/project/' + ${project.id}" th:text="${task.name}"></a>
+			th:href="'/task/' + ${task.id} +'/project/' + ${project.id}"
+			th:text="${task.name}"></a>
 			<div th:text="${task.description}" style="color: pink"></div> <a
 			th:href="'/updateTask/' + ${task.id} + '/project/' + ${project.id}">Update</a>
 			<form method="POST"
@@ -36,11 +37,14 @@
 		with</a>
 	<h5>Tags Project</h5>
 	<ul>
-	<li th:each="tag : ${project.tags}">
-		<div th:text="${tag.name} + ' ' + ${tag.description} + ' ' + ${tag.color}"></div>
-	</li>
+		<li th:each="tag : ${project.tags}">
+			<div
+				th:text="${tag.name} + ' ' + ${tag.description} + ' ' + ${tag.color}"></div>
+		</li>
 	</ul>
 	<a th:href="'/project/addTag/' + ${project.id}">Add Tag</a>
-	<h5><a th:href="@{/home}">Home</a></h5>
+	<h5>
+		<a th:href="@{/home}">Home</a>
+	</h5>
 </body>
 </html>

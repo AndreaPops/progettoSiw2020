@@ -1,5 +1,6 @@
 package it.uniroma3.siw.taskmanager.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class Tag {
 	@ManyToMany(mappedBy="listaTag")
 	private List<Task> listaTask;	
 	public Tag() {
-
+		listaTask=new ArrayList<>();
 	}
 
 	public Tag(String nome,String colore,String descrizione) {

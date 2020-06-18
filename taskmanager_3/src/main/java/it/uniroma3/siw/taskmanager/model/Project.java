@@ -57,6 +57,7 @@ public class Project {
     private List<Tag> tags;
     
     public Project() {
+    	this.tags= new ArrayList<>();
         this.members = new ArrayList<>();
         this.tasks = new ArrayList<>();
     }
@@ -157,8 +158,5 @@ public class Project {
 		this.tags = tags;
 	}
 	
-	public void addTag(Tag tag) {
-		this.tags.add(tag);
-	}
     
 }

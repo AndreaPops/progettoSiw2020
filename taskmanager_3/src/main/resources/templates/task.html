@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="https://www.thymeleaf.org">
+	xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>TaskManager</title>
 </head>
- 
+
 <body>
-<h1>TASK </h1>
-    <h2 th:text="${task.name}"></h2>
-    <h3 th:text="${task.description}" style="color: green"></h3>
-    <div th:if="${task.userTask!=null}">
-    <h4>Shared with</h4>
-    <h5 th:text="${task.userTask.firstName} + ' ' + ${task.userTask.lastName}"></h5>
-    </div>
-     <h3><a th:href="@{'/projects/' + ${project.id}}">Return Project</a></h3>
-     <h3><a th:href="@{/home}">Home</a></h3>
+	<h1>TASK</h1>
+	<h2 th:text="${task.name}"></h2>
+	<h3 th:text="${task.description}" style="color: green"></h3>
+	<div th:if="${task.userTask!=null}">
+		<h4>Shared with</h4>
+		<h5
+			th:text="${task.userTask.firstName} + ' ' + ${task.userTask.lastName}"></h5>
+	</div>
+		<h2>Tag List:</h2>
+		<ul>
+			<li th:each="tag : ${task.listaTag}">
+			<div th:text="${tag.name}"></div>
+			<div th:text="${tag.description}"></div>
+			<div th:text="${tag.color}"></div>
+			</li>
+		</ul>
+	
+	<a th:href="@{'/task/addTag/' + ${task.id} + '/' + ${project.id}}">Add Tag</a>
+	<h3>
+		<a th:href="@{'/projects/' + ${project.id}}">Return Project</a>
+	</h3>
+	<h3>
+		<a th:href="@{/home}">Home</a>
+	</h3>
 </body>
 </html>

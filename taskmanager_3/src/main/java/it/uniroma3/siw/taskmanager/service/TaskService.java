@@ -1,5 +1,6 @@
 package it.uniroma3.siw.taskmanager.service;
 
+import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.repository.ProjectRepository;
@@ -65,6 +66,12 @@ public class TaskService {
 	public	Task shareTaskWithUser(Task task,User user) {
 		task.setUserTask(user);
 		return this.taskRepository.save(task);
+	}
+	
+	@Transactional
+	public void addTagtoTask(Task task,Tag tag) {
+		task.getListaTag().add(tag);
+		this.taskRepository.save(task);
 	}
 }
 
