@@ -64,28 +64,22 @@ public class TagController {
 	public String addTagTask(Model model,@PathVariable("idTask") Long idTask,@PathVariable("idProject") Long idProject) {
 		Task task=this.taskService.getTask(idTask);
 		model.addAttribute("task",task );
-		model.addAttribute("tag", new Tag());
 		model.addAttribute("project", this.projectService.getProject(idProject));
 		return "addTagTask";
 	}
 
-	@RequestMapping(value= {"/task/addTag/{idTask}/{idProject}"},method=RequestMethod.POST)
+	@RequestMapping(value= {"/task/{idTask}/{idProject}/{idTag}"},method=RequestMethod.GET)
 	public String addTagTask(@PathVariable("idTask") Long idTask,Model model,@PathVariable("idProject") Long idProject,
-			@Valid@ModelAttribute("tag") Tag tag,BindingResult tagBindingResult) {
+			@PathVariable("idTag") Long idTag) {
 		Task task=this.taskService.getTask(idTask);
-		this.tagValidator.validate(tag, tagBindingResult);
-		model.addAttribute("project", this.projectService.getProject(idProject));
-		if(!tagBindingResult.hasErrors()) {
-			this.tagService.saveTag(tag);
-			this.tagService.addTaskToTag(tag, task);
-			this.taskService.addTagtoTask(task, tag);
-			model.addAttribute("task", task);
-			return"task";
-		}else {
-			model.addAttribute("task",task);
-			model.addAttribute("tag", tag);
-			return"addTagTask";
-		}
+		Tag tag=this.tagService.getTag(idTag);
+		Project project=this.projectService.getProject(idProject);
+		model.addAttribute("project", project);
+		this.tagService.addTaskToTag(tag, task);
+		this.taskService.addTagtoTask(task, tag);
+		model.addAttribute("task", task);
+		return "task";
 	}
-
 }
+
+

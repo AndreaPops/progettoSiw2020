@@ -157,6 +157,7 @@ public class Project {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
+
 	
     
 }
