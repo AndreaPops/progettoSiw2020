@@ -88,8 +88,7 @@ public class ProjectService {
 	}
 
 	public void addTagProject(Project project,  Tag tag) {
-		project.addTag(tag);
+		project.getTags().add(tag);
 		this.projectRepository.save(project);
-		
 	}
 }	
