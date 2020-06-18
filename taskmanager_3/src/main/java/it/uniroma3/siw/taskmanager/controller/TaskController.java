@@ -49,11 +49,14 @@ public class TaskController {
 		User loggedUser= this.sessionData.getLoggedUser();
 		Credentials credentials=this.sessionData.getLoggedCredentials();
 		Project project=this.projectService.getProject(idProject);
+		if(project.getOwner().equals(sessionData.getLoggedUser())) {
 		model.addAttribute("loggedUser",loggedUser);
 		model.addAttribute("credentials",credentials);
 		model.addAttribute("project",project);
 		model.addAttribute("task", new Task());
 		return "addTask";
+		}
+		return "redirect:/projects/{idProject}";
 	}
 
 	@RequestMapping(value= {"/task/add/{idProject}"},method=RequestMethod.POST)
@@ -73,47 +76,52 @@ public class TaskController {
 		return "addTask";
 	}
 
-	@RequestMapping(value= {"/task/{idTask}/project/{projectId}"},method=RequestMethod.GET)
-	public String task(@PathVariable("idTask") Long idTask,Model model, @PathVariable("projectId") Long projectId) {
+	@RequestMapping(value= {"/task/{idTask}/project/{idProject}"},method=RequestMethod.GET)
+	public String task(@PathVariable("idTask") Long idTask,Model model, @PathVariable("idProject") Long idProject) {
 		Task task=this.taskService.getTask(idTask);
-		Project project= this.projectService.getProject(projectId);
+		Project project= this.projectService.getProject(idProject);
 		model.addAttribute("project", project);
 		model.addAttribute("task", task);
 		return "task";
 	}
 
-	@RequestMapping(value = {"/projects/{projectId}/deleteTask/{taskId}"}, method = RequestMethod.POST)
-	public String deleteTask(Model model, @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
+	@RequestMapping(value = {"/projects/{idProject}/deleteTask/{taskId}"}, method = RequestMethod.POST)
+	public String deleteTask(Model model, @PathVariable("idProject") Long idProject, @PathVariable("taskId") Long taskId) {
 		User loggedUser = sessionData.getLoggedUser();
-		Project project = projectService.getProject(projectId);
+		Project project = projectService.getProject(idProject);
 		User owner = project.getOwner();
 		if (loggedUser.equals(owner)) {
 			project.removeTaskWithId(taskId);
 			projectService.saveProject(project);
 			taskService.deleteTask(this.taskService.getTask(taskId));
-			return "redirect:/projects/{projectId}";
+			return "redirect:/projects/{idProject}";
 		}
 		else
-			return "redirect:/projects/{projectId}";
+			return "redirect:/projects/{idProject}";
 	}
 
-	@RequestMapping(value= {"/updateTask/{taskId}/project/{projectId}"}, method= RequestMethod.GET)
-	public String updateTask(@PathVariable("taskId") Long taskId,Model model, @PathVariable("projectId") Long projectId) {
-		Task task=	this.taskService.getTask(taskId);
-		Project project=this.projectService.getProject(projectId);
-		model.addAttribute("project", project);
-		model.addAttribute("task", task);
-		return "updateTask";
+	@RequestMapping(value= {"/updateTask/{taskId}/project/{idProject}"}, method= RequestMethod.GET)
+	public String updateTask(@PathVariable("taskId") Long taskId,Model model, @PathVariable("idProject") Long idProject) {
+		User loggedUser=this.sessionData.getLoggedUser();
+		Project project=this.projectService.getProject(idProject);
+		User owner=project.getOwner();
+		if(loggedUser.equals(owner)) {
+			Task task=	this.taskService.getTask(taskId);
+			model.addAttribute("project", project);
+			model.addAttribute("task", task);
+			return "updateTask";
+		}
+		return "redirect:/projects/{idProject}";
 	}
 
 
-	@RequestMapping(value= {"/updateTask/task/{taskId}/project/{projectId}"}, method= RequestMethod.POST)
+	@RequestMapping(value= {"/updateTask/task/{taskId}/project/{idProject}"}, method= RequestMethod.POST)
 	public String updateTask(@PathVariable("taskId") Long taskId, Model model,
-			@PathVariable("projectId") Long projectId,
+			@PathVariable("idProject") Long idProject,
 			@Valid @ModelAttribute("task") Task newTask,
 			BindingResult taskBindingResult) {
 		User loggedUser=sessionData.getLoggedUser();
-		Project project=this.projectService.getProject(projectId);
+		Project project=this.projectService.getProject(idProject);
 		model.addAttribute("user", loggedUser);
 		model.addAttribute("project", project);
 		Task task=this.taskService.getTask(taskId);
@@ -124,13 +132,15 @@ public class TaskController {
 			this.taskService.saveTask(task);
 			model.addAttribute("task", task);
 			return "task";
-		}
-		else
-		{
+		}else {
+
 			newTask.setId(task.getId());
 			model.addAttribute("task", newTask);
 			return "updateTask";
 		}
+		
+		
+		
 	}
 
 
@@ -138,12 +148,16 @@ public class TaskController {
 	@RequestMapping(value= {"/projects/task/{idTask}/{idProject}"},method=RequestMethod.GET)
 	public String shareTask(@PathVariable("idTask") Long idTask,@PathVariable("idProject") Long idProject,Model model) {
 		Project project=this.projectService.getProject(idProject);
+		User loggedUser=this.sessionData.getLoggedUser();
+		if(loggedUser.equals(project.getOwner())) {
 		Task task= this.taskService.getTask(idTask);
 		String userName= new String();
 		model.addAttribute("project",project);
 		model.addAttribute("task",task);
 		model.addAttribute("userName", userName);
 		return "shareTaskWith";
+		}
+		return "redirect:/projects/{idProject}";
 
 	}
 

@@ -34,7 +34,7 @@
 		<ul>
 			<li th:each="commento : ${task.commenti}">
 				<div>
-					<div th:text=" ${commento.commento} "></div>
+				<div th:text=" ${commento.commento} "></div>
 					<div
 						th:text="${commento.user.firstName} + ' ' + ${commento.user.lastName}"></div>
 				</div>

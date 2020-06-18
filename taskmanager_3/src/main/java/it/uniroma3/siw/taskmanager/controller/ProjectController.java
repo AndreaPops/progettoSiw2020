@@ -101,9 +101,13 @@ public class ProjectController {
 	@RequestMapping(value= {"/projects/share/{idProject}"},method=RequestMethod.GET)
 	public String shareWith(@PathVariable("idProject") Long idProject,Model model) {
 		Project project =projectService.getProject(idProject);
+		User loggedUser=this.sessionData.getLoggedUser();
+		if(loggedUser.equals(project.getOwner())) {
 		model.addAttribute("project", project);
 		model.addAttribute("userName",new String());
 		return "shareWith";
+		}
+		return"redirect:/projects/{idProject}";
 	}
 
 
