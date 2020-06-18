@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="https://www.thymeleaf.org">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<head>
+<title>TaskManager</title>
+</head>
+
+<body>
+    <h1>Create new Commento</h1>
+    <form 
+        th:action="@{'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment'}" method="POST">
+
+        <table>
+            <tr>
+                <td><label for="commentInput">Commento</label>
+                <td><input id=commentInput type="text" placeholder="COMMENT"
+                    th:name="commento" required /></td>
+            </tr>
+        </table>
+        <button type="submit">Add</button>
+    </form>
+    <div>
+        <footer>
+            <a th:href="@{/home}">Home</a>
+        </footer>
+    </div>
+</body>
+</html>

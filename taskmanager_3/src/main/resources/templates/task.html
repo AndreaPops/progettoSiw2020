@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <head>
 <meta charset="UTF-8">
 <title>TaskManager</title>
@@ -15,16 +16,34 @@
 		<h5
 			th:text="${task.userTask.firstName} + ' ' + ${task.userTask.lastName}"></h5>
 	</div>
-		<h2>Tag List:</h2>
-		<ul>
-			<li th:each="tag : ${task.listaTag}">
+	<h2>Tag List:</h2>
+	<ul>
+		<li th:each="tag : ${task.listaTag}">
 			<div th:text="${tag.name}"></div>
 			<div th:text="${tag.description}"></div>
 			<div th:text="${tag.color}"></div>
+		</li>
+	</ul>
+
+	<a th:href="@{'/task/addTag/' + ${task.id} + '/' + ${project.id}}">Add
+		Tag</a>
+
+
+
+	<div th:if="${task.commenti.size()>0}">
+		<h3>Commenti:</h3>
+		<ul>
+			<li th:each="commento : ${task.commenti}">
+				<div>
+				<div th:text=" ${commento.commento} "></div>
+					<div
+						th:text="${commento.user.firstName} + ' ' + ${commento.user.lastName}"></div>
+				</div>
 			</li>
 		</ul>
-	
-	<a th:href="@{'/task/addTag/' + ${task.id} + '/' + ${project.id}}">Add Tag</a>
+	</div>
+	<a th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment/'">addComment</a>
+		
 	<h3>
 		<a th:href="@{'/projects/' + ${project.id}}">Return Project</a>
 	</h3>

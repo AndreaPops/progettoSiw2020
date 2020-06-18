@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.TagValidator;
 import it.uniroma3.siw.taskmanager.model.Project;
 import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.Task;
+import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
 import it.uniroma3.siw.taskmanager.service.TagService;
 import it.uniroma3.siw.taskmanager.service.TaskService;
 
 @Controller
 public class TagController {
+	@Autowired
+	SessionData sessionData;
+
 	@Autowired
 	TaskService taskService;
 
@@ -36,9 +41,13 @@ public class TagController {
 	@RequestMapping(value= {"/project/addTag/{idProject}"}, method=RequestMethod.GET)
 	public String addTagProject(Model model, @PathVariable("idProject") Long idProject) {
 		Project project=this.projectService.getProject(idProject);
-		model.addAttribute("project", project);
-		model.addAttribute("tag", new Tag());
-		return "addTag";
+		User loggedUser=this.sessionData.getLoggedUser();
+		if(loggedUser.equals(project.getOwner())) {
+			model.addAttribute("project", project);
+			model.addAttribute("tag", new Tag());
+			return "addTag";
+		}
+		return"redirect:/projects/{idProject}";
 	}
 
 	@RequestMapping(value= {"/project/addTag/{idProject}"}, method=RequestMethod.POST)
@@ -63,9 +72,14 @@ public class TagController {
 	@RequestMapping(value= {"/task/addTag/{idTask}/{idProject}"},method=RequestMethod.GET)
 	public String addTagTask(Model model,@PathVariable("idTask") Long idTask,@PathVariable("idProject") Long idProject) {
 		Task task=this.taskService.getTask(idTask);
-		model.addAttribute("task",task );
-		model.addAttribute("project", this.projectService.getProject(idProject));
-		return "addTagTask";
+		User loggedUser=this.sessionData.getLoggedUser();
+		Project project=this.projectService.getProject(idProject);
+		if(loggedUser.equals(project.getOwner())) {
+			model.addAttribute("task",task );
+			model.addAttribute("project", this.projectService.getProject(idProject));
+			return "addTagTask";
+		}
+		return "redirect:/task/{idTask}/project/{idProject}";
 	}
 
 	@RequestMapping(value= {"/task/{idTask}/{idProject}/{idTag}"},method=RequestMethod.GET)

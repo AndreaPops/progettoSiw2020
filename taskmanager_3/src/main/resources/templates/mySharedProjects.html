@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>TaskManager</title>
@@ -18,7 +19,7 @@
 		</thead>
 		<tbody>
 		<tr th:each ="project : ${projectsList}">
-			<td th:text="${project.name}"></td>
+			<td> <a th:href="'/projects/' + ${project.id}" th:text="${project.name}"></a></td>
 			<td th:text="${project.description}">...</td>   
 			</tr>
 			</tbody>
