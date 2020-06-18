@@ -17,7 +17,6 @@ import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.ProjectValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.Project;
-import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.service.CredentialsService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
@@ -93,6 +92,8 @@ public class ProjectController {
 
 	@RequestMapping(value= {"/delete/{id}"},method=RequestMethod.POST)
 	public String deleteProject(@PathVariable("id")Long id,Model model) {
+		User loggedUser=sessionData.getLoggedUser();
+		model.addAttribute("user", loggedUser);
 		this.projectService.deleteProject(id);
 		return "redirect:/projects/";
 	}
