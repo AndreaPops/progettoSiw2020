@@ -55,7 +55,7 @@ public class Task {
     @ManyToOne
     private User userTask;
     
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.REMOVE)
     private List<Tag> listaTag;
     
     public Task() {
