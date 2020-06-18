@@ -1,0 +1,41 @@
+SPECIFICHE CASI D'USO
+
+Casi d'uso implementati:
+
+USER:
+-SIGN UP: l'utente si registra inserendo username, password, nome e cognome
+-Autenticazione: l'utente accede al sistema inserendo username e password
+-Visualizzazione Profilo: dalla home l'utente accede alla visualizzazione del suo profilo
+-Update profilo: l'utente cambia le informazioni del suo profile, tranne che la password che va reinserita uguale
+-Uno user può avere il ruolo admin ed eliminare dal sistema uno user
+
+PROJECT:
+-Creare un nuovo Project: l'utente dalla home clicca sul link e il sistema mostra una form per inserire i dati del progetto (nome e descrizione)
+-Visualizzare i miei progetti:l'utente dalla home clicca sul link e il sistema mostra l'elenco dei progetti
+-Aggiornare dati del mio progetto:dalla pagina dove viene visualizzato l'elenco accanto ad ogni progetto vi è il tasto update che porta ad una form dove
+ lo si può modificare. Solo il proprietario del progetto può fare l'update.
+ -Cancellare un mio progetto:dalla pagina dove viene visualizzato l'elenco accanto ad ogni progetto vi è il tasto delete. Se cliccato il sistema elimina il 
+progetto e reinderizza alla pagine elenco Progetti.
+ Solo il proprietario del progetto può eliminare il progetto.
+ -Condividere progetto con un utente: cliccando sul link "Share project with" nella pagina del progetto si viene portati ad una form dove inserire l'utente con 
+ cui si condividerà il progetto.  Solo il proprietario del progetto può condividere il suo progetto.
+ -Aggiungere un tag al mio progetto: Cliccando il link AddTag presente nella pagina del progetto si viene mandati ad una form dove inserire i dati del tag(nome, 
+descrizione e colore).
+  Solo il proprietario del progetto  può aggiungere un tag al progetto.
+
+TASK:
+-Aggiungere un task al progetto:Cliccando il link AddTask presente nella pagina del progetto si viene mandati ad una form dove inserire i dati del task(nome e 
+descrizione).
+  Solo il proprietario del progetto può aggiungere un task al progetto.
+-Aggiornare un task al progetto: Nella pagina del progetto, sotto il nome del Task vi è un link che manda ad una form dove aggiornare i dati del task.  
+   Solo il proprietario del progetto può aggiungere i dati del task.
+-Assegnare un task ad un utente che ha visibilità sul progetto:Nella pagina del project sotto il relativo task vi è il link che manda ad una form dove inserire 
+i dati dell'utente a cui assegnare il task. Nella pagina del task viene visualizzato l'utente a cui è assegnato il task.
+Solo il proprietario del progetto può assegnare un task ad un utente.
+-Aggiungere un tag ad un task: nella pagina del task cliccando sul link addTask si viene portati ad una pagina che visualizza l'elenco dei tag del progetto 
+associato a quel task e selezionandone uno, questo verrà aggiunto alla lista di tag del task e viceversa.
+Nella pagina del task verrà visualizzato tale tag. Solo il  Solo il proprietario del progetto  può assegnare un tag ad un task.
+-Eliminazione task: Nella pagina del progetto sotto ad ogni task c'è un bottono delete che lo elimina.  Solo il proprietario del progetto può eliminare un task.
+-Aggiungere un commento ad un task: sia il proprietario del progetto che tutti i membri possono assegnare un commento ad un task attraverso un link,
+ che si trova nella pagina del rispettivo task, che porta ad una form dove inserire i dati del commento stesso.
+
