@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.TaskValidator;
+import it.uniroma3.siw.taskmanager.model.Commento;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.Project;
 import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
+import it.uniroma3.siw.taskmanager.service.CommentoService;
 import it.uniroma3.siw.taskmanager.service.CredentialsService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
 import it.uniroma3.siw.taskmanager.service.TaskService;
@@ -24,6 +26,9 @@ import it.uniroma3.siw.taskmanager.service.TaskService;
 @Controller
 public class TaskController {
 
+	@Autowired
+	CommentoService	commentoService;
+	
 	@Autowired
 	CredentialsService credentialsService;
 
@@ -142,7 +147,7 @@ public class TaskController {
 
 	}
 
-	
+
 	@RequestMapping(value={"/task/{idTask}/{idProject}"},method=RequestMethod.POST)
 	public String shareTask(@PathVariable("idProject") Long idProject,@PathVariable("idTask") Long idTask,
 			Model model,@ModelAttribute("userName") String userName) {
@@ -161,6 +166,39 @@ public class TaskController {
 		}
 	}
 
+	@RequestMapping( value = {"/projects/{idProject}/task/{idTask}/addComment"}, method = RequestMethod.GET)
+	public String addComment(Model model, @PathVariable("idProject") Long idProject,
+			@PathVariable("idTask") Long idTask) {
+		Project project = projectService.getProject(idProject);
+		User loggedUser = sessionData.getLoggedUser();
+		if((project.getMembers().contains(loggedUser))||(project.getOwner().equals(loggedUser))) {
+			Task task = taskService.getTask(idTask);
+			String commento = new String();
+			model.addAttribute("project", project);
+			model.addAttribute("task", task);
+			model.addAttribute("commento", commento);
+			return "addCommento";
+		}
+		return "redirect:/task/{idTask}/project/{idProject}";
+	}
 
+
+
+	@RequestMapping( value = {"/projects/{idProject}/task/{idTask}/addComment"}, method = RequestMethod.POST)
+	public String addComment(@ModelAttribute("commento") String commento, Model model, @PathVariable("idProject") Long idProject,
+			@PathVariable("idTask") Long idTask) {
+		Task task = taskService.getTask(idTask);
+		Commento comment = new Commento();
+		comment.setCommento(commento);
+		comment.setUser(sessionData.getLoggedUser());
+		task.addCommento(comment);
+		this.commentoService.saveCommento(comment);
+		taskService.saveTask(task);
+		model.addAttribute("project", this.projectService.getProject(idProject));
+		return "redirect:/task/{idTask}/project/{idProject}";
+
+	}
 
 }
+
+

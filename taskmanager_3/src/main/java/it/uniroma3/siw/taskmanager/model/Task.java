@@ -58,8 +58,13 @@ public class Task {
     @ManyToMany(cascade=CascadeType.REMOVE)
     private List<Tag> listaTag;
     
+    @OneToMany
+    private List<Commento> commenti;
+ 
+    
     public Task() {
     	listaTag= new ArrayList<>();
+    	commenti=new ArrayList<>();
     }
 
     public Task(String name,
@@ -170,6 +175,19 @@ public class Task {
 
 	public void setListaTag(List<Tag> listaTag) {
 		this.listaTag = listaTag;
+	}
+
+	public List<Commento> getCommenti() {
+		return commenti;
+	}
+
+	public void setCommenti(List<Commento> commenti) {
+		this.commenti = commenti;
+	}
+
+	public void addCommento(Commento commento) {
+		this.getCommenti().add(commento);
+		
 	}
 	
 }
